@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FP2級 特訓メニュー</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>FP2級 TEPPEN</title>
     <style>
         :root {
             --bg-color: #fffaf0;
@@ -13,10 +13,7 @@
             --card-bg: #ffffff;
             --bar-bg: #f0f0f0;
         }
-
-        /* 全体のボックスサイズ計算を固定 */
         * { box-sizing: border-box; }
-
         body {
             font-family: sans-serif;
             background-color: var(--bg-color);
@@ -24,47 +21,44 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            height: 100vh;
-            overflow: hidden; /* 全体はスクロールさせない */
+            height: 100dvh;
+            overflow: hidden;
         }
-
         .container {
             width: 100%;
             max-width: 440px;
-            padding: 10px 15px; /* 上下を少し詰めました */
+            padding: 10px 15px;
+            /* 【極限】ご指定の3pxに設定 */
+            padding-bottom: 3px;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100dvh;
         }
-
         header {
             text-align: center;
-            margin-bottom: 10px; /* 余白を削減 */
+            margin-bottom: 12px; /* 余白をスリム化 */
         }
-
         h1 {
-            font-size: 1.4rem; /* 少し小さく調整 */
+            font-size: 1.4rem;
             margin: 0;
             color: var(--accent-pink);
             letter-spacing: 2px;
             font-weight: bold;
         }
-
-        /* 縦並びのボタンリスト */
+        /* 縦並びのボタンリスト：一画面に収まるよう調整 */
         .menu-list {
             display: flex;
             flex-direction: column;
-            gap: 8px; /* 項目間の隙間を詰めました */
+            gap: 6px; /* 隙間を詰めて全分野を収める */
             flex-grow: 1;
-            overflow-y: auto; /* ここだけスクロール可能に */
+            overflow-y: auto;
             padding-bottom: 5px;
         }
-
         .menu-item {
             background: var(--card-bg);
             border: 2px solid var(--main-pink);
             border-radius: 15px;
-            padding: 10px 15px; /* 上下のパディングを詰めました */
+            padding: 8px 12px; /* 上下をスリムに */
             text-decoration: none;
             color: var(--text-brown);
             display: flex;
@@ -72,48 +66,41 @@
             box-shadow: 0 3px 0 var(--main-pink);
             transition: 0.1s;
         }
-
         .menu-item:active {
             transform: translateY(2px);
             box-shadow: none;
         }
-
         .field-symbol {
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--accent-pink);
-            width: 35px; /* 横幅をスリムに */
+            width: 35px;
             text-align: center;
             margin-right: 12px;
             flex-shrink: 0;
         }
-
         .field-info {
             flex-grow: 1;
             min-width: 0;
         }
-
         .field-name {
-            font-size: 0.9rem; /* 文字サイズを微調整 */
+            font-size: 0.85rem;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
-
         .progress-container {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
         .bar-bg {
             flex-grow: 1;
-            height: 10px; /* バーを少し細く */
+            height: 10px;
             background: var(--bar-bg);
             border-radius: 5px;
             position: relative;
             overflow: hidden;
         }
-
         .bar-fill {
             height: 100%;
             width: 0%;
@@ -121,21 +108,18 @@
             border-radius: 5px;
             transition: width 0.8s ease-out;
         }
-
         .percent-text {
             font-size: 0.7rem;
             color: #999;
             min-width: 30px;
             text-align: right;
         }
-
         footer {
             text-align: center;
-            font-size: 0.75rem;
-            padding: 8px 0;
-            opacity: 0.9;
+            font-size: 0.7rem;
+            padding: 5px 0;
+            opacity: 0.8;
         }
-
         .field-a { border-left: 6px solid #ffcdd2; }
         .field-b { border-left: 6px solid #c8e6c9; }
         .field-c { border-left: 6px solid #bbdefb; }
@@ -257,7 +241,6 @@
                     const currentIdx = parseInt(savedValue);
                     const total = totalQuestions[item.id];
                     const percent = Math.min(Math.round((currentIdx / total) * 100), 100);
-                    
                     fillElement.style.width = percent + '%';
                     textElement.innerText = percent + '%';
                 }
