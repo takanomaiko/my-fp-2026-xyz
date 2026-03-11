@@ -14,9 +14,7 @@
             --star-yellow: #ffca28;
             --text-brown: #5a4a42;
         }
-
         * { box-sizing: border-box; }
-
         body { 
             font-family: sans-serif; 
             background-color: var(--bg-color); 
@@ -27,22 +25,19 @@
             height: 100dvh; 
             overflow: hidden; 
         }
-
         .container { 
             width: 100%; 
             max-width: 440px; 
             padding: 10px; 
             box-sizing: border-box; 
-            /* 【修正】検索バーのギリギリを攻める設定（iPhone Safari向け） */
-            padding-bottom: 60px; 
+            /* 検索バーのギリギリ上を攻める設定 */
+            padding-bottom: 65px; 
             display: flex; 
             flex-direction: column; 
             position: relative; 
         }
-        
         .progress-container { width: 100%; height: 6px; background-color: #eee; border-radius: 3px; margin-bottom: 8px; flex-shrink: 0;}
         #progress-bar { height: 100%; width: 0%; background-color: var(--accent-pink); border-radius: 3px; transition: width 0.3s; }
-        
         .card { 
             background: var(--card-bg); 
             border: 3px solid var(--main-pink); 
@@ -56,24 +51,21 @@
             flex-direction: column; 
             overflow: hidden; 
         }
-        
         .star-btn { position: absolute; top: 8px; right: 12px; font-size: 1.4rem; cursor: pointer; border: none; background: none; color: #ddd; z-index: 10; }
         .star-btn.active { color: var(--star-yellow); }
-
         .mode-badge { display: inline-block; padding: 2px 10px; border-radius: 15px; font-size: 0.7rem; margin-bottom: 6px; font-weight: bold; }
         .mode-normal { background: var(--main-pink); color: var(--text-brown); }
         .mode-test { background: #ce93d8; color: white; }
         .mode-review { background: #fff176; color: #856404; }
         .mode-fav { background: #ffe082; color: #795548; }
-
         .q-header { font-size: 0.8rem; font-weight: bold; color: var(--accent-pink); margin-bottom: 6px; }
         
-        /* 問題文エリア：回答後も表示し続けるため、高さを制限 */
+        /* 問題文エリア：常に表示 */
         .q-text { 
             font-size: 1rem; 
             line-height: 1.4; 
             margin-bottom: 10px; 
-            max-height: 35%; /* 回答後も見えるように制限 */
+            max-height: 30%; 
             display: flex; 
             align-items: flex-start; 
             text-align: left; 
@@ -81,14 +73,13 @@
             padding-top: 5px; 
             flex-shrink: 0;
         }
-        
         .btn-group { display: flex; gap: 10px; margin-top: auto; margin-bottom: 10px; flex-shrink: 0; }
         .btn-main { flex: 1; padding: 15px; font-size: 1.6rem; border: none; border-radius: 12px; cursor: pointer; transition: 0.1s; box-shadow: 0 3px 0 rgba(0,0,0,0.1); }
         .btn-main:active { transform: translateY(2px); box-shadow: none; }
         .btn-o { background-color: #ffb7c5; color: white; }
         .btn-x { background-color: #a0d8ef; color: white; }
 
-        /* 解説・回答エリア：問題文の下に表示 */
+        /* 解説セクション：回答後に問題文の下にスライドイン */
         #answer-section { 
             display: none; 
             padding: 12px; 
@@ -100,12 +91,9 @@
             animation: fadeIn 0.3s ease; 
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .result-msg { font-size: 1.1rem; font-weight: bold; margin-bottom: 8px; flex-shrink: 0;}
-        
-        /* 解説部分をスクロール可能に */
+        .result-msg { font-size: 1.2rem; font-weight: bold; margin-bottom: 8px; flex-shrink: 0;}
         .explanation { 
-            font-size: 0.85rem; 
+            font-size: 0.9rem; 
             text-align: left; 
             line-height: 1.5; 
             margin-bottom: 10px; 
@@ -115,17 +103,13 @@
             padding-top: 8px; 
             flex-grow: 1;
         }
-        
         .memo-area { margin-bottom: 10px; text-align: left; flex-shrink: 0; }
         .memo-label { font-size: 0.7rem; font-weight: bold; color: var(--accent-pink); display: block; margin-bottom: 3px; }
-        .memo-input { width: 100%; border: 1px solid #ccc; border-radius: 5px; padding: 6px; font-size: 0.8rem; font-family: inherit; background: #fff; box-sizing: border-box; resize: none; }
-
+        .memo-input { width: 100%; border: 1px solid #ccc; border-radius: 5px; padding: 8px; font-size: 0.85rem; font-family: inherit; background: #fff; box-sizing: border-box; resize: none; }
         .btn-next { width: 100%; background-color: var(--accent-pink); color: white; font-size: 1.1rem; border-radius: 10px; border:none; padding:12px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #d66d85; margin-bottom: 5px; flex-shrink: 0; }
-        .btn-next:active { transform: translateY(2px); box-shadow: none; }
-
         .btn-copy { width: auto; background-color: transparent; color: #888; border: 1px solid #ccc; font-size: 0.6rem; padding: 4px 8px; border-radius: 6px; cursor: pointer; display: block; margin: 0 auto; flex-shrink: 0;}
 
-        /* フッター：位置を微調整 */
+        /* フッターボタン */
         .footer-btns { 
             margin-top: 8px; 
             display: grid; 
@@ -136,20 +120,28 @@
         }
         .btn-sub { padding: 12px; font-size: 0.85rem; background: #eee; border-radius: 8px; color: #666; border:none; cursor: pointer; font-weight: bold; }
         
-        /* テスト結果画面（全画面） */
+        /* ポップアップメニュー：確実に隠す */
+        .modal-overlay { 
+            position: absolute; top:0; left:0; width:100%; height:100%; 
+            background:rgba(0,0,0,0.5); display:none; justify-content:center; 
+            align-items:center; z-index:200; 
+        }
+        .modal-content { background: white; width: 85%; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; color: var(--text-brown); }
+        .modal-btn { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
+        
         .result-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 150; padding: 20px; box-sizing: border-box; }
+        #copy-toast { display: none; position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.75rem; z-index: 1000; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="progress-container"><div id="progress-bar"></div></div>
-    
     <div class="card" id="main-card">
         <button id="star-btn" class="star-btn" onclick="toggleFav()">★</button>
         <div id="mode-display" class="mode-badge mode-normal">通常モード</div>
         <div id="q-header-text" class="q-header">読み込み中...</div>
-        
         <div class="q-text" id="q-content">データを読み込んでいます...</div>
 
         <div class="btn-group" id="btn-group">
@@ -160,12 +152,10 @@
         <div id="answer-section">
             <div id="result-msg" class="result-msg"></div>
             <div id="explanation" class="explanation"></div>
-            
             <div class="memo-area">
                 <label class="memo-label">✎ マイメモ</label>
-                <textarea class="memo-input" id="memo-input" rows="2" placeholder="覚え方などをメモ..." oninput="saveMemo()"></textarea>
+                <textarea class="memo-input" id="memo-input" rows="3" placeholder="覚え方などをメモ..." oninput="saveMemo()"></textarea>
             </div>
-
             <button class="btn-next" onclick="next()">次の問題へ ▶</button>
             <button class="btn-copy" onclick="copyForGemini()">Geminiに聞くテキストをコピー 📋</button>
         </div>
@@ -176,7 +166,6 @@
             <button class="btn-next" style="width: 80%;" onclick="finishTest()">通常モードに戻る</button>
         </div>
     </div>
-
     <div class="footer-btns">
         <button class="btn-sub" onclick="openMenu()" style="background: #e1bee7; color: #4a148c;">☰ メニュー</button>
         <button class="btn-sub" onclick="location.href='index.html'">🏠 ホームへ</button>
@@ -193,22 +182,14 @@
         <button class="modal-btn" style="background:#ddd; color:#333; margin-top:10px;" onclick="closeMenu()">閉じる</button>
     </div>
 </div>
-
-<div id="copy-toast" style="display: none; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.75rem; z-index: 1000;">コピーしました！</div>
+<div id="copy-toast">コピーしました！</div>
 
 <script>
-    // 問題データ（A分野）
     const questions = [
         {"no":1,"question":"税理士の登録を受けていないFPが、ふるさと納税について相談に来た顧客の求めに応じ、顧客の年間収入や家族構成をもとに寄附金控除の額を計算し、確定申告書の作成を代行した。","answer":"×","explanation":"確定申告書などの税務書類の作成は、税理士の登録を受けていないFPが行うことはできません。"},
         {"no":2,"question":"税理士の登録を受けていないFPが、顧客から配偶者控除と配偶者特別控除の適用要件を聞かれ、所得税法の条文等を示しつつ、それぞれの適用要件の違いを説明した。","answer":"⚪︎","explanation":"配偶者控除などの税制に関する一般的な説明を行うことは、税理士法に抵触しないため、税理士の登録を受けていないFPでも可能です。"}
-        // --- 以降、全192問を貼り付けてください ---
+        // --- 以降192問追加 ---
     ];
-
-    if(questions.length < 192) {
-        for(let i=3; i<=192; i++) {
-            questions.push({"no":i,"question":`【A分野 No.${i}】本番データを入れてください。`,"answer":i%2===0?"⚪︎":"×","explanation":`No.${i}の解説。`});
-        }
-    }
 
     let currentIdx = 0;
     let mode = 'normal'; 
@@ -216,10 +197,7 @@
     let reviewList = JSON.parse(localStorage.getItem('fp_review_list')) || [];
     let favList = JSON.parse(localStorage.getItem('fp_fav_list')) || [];
     let memoData = JSON.parse(localStorage.getItem('fp_memos')) || {};
-    let testIndices = [];
-    let testCurrentIdx = 0;
-    let testCorrectCount = 0;
-    let resetClickCount = 0;
+    let testIndices = []; let testCurrentIdx = 0; let testCorrectCount = 0; let resetClickCount = 0;
 
     const saved = localStorage.getItem('fp_progress_v12');
     if (saved) currentIdx = parseInt(saved);
@@ -231,32 +209,25 @@
         const ansSec = document.getElementById('answer-section');
         const btnGrp = document.getElementById('btn-group');
         const resOverlay = document.getElementById('test-result-screen');
-
-        ansSec.style.display = 'none';
-        btnGrp.style.display = 'flex';
-        resOverlay.style.display = 'none';
+        ansSec.style.display = 'none'; btnGrp.style.display = 'flex'; resOverlay.style.display = 'none';
 
         if (mode === 'test') {
             q = questions[testIndices[testCurrentIdx]];
-            modeDisp.innerText = "10問テスト";
-            modeDisp.className = "mode-badge mode-test";
+            modeDisp.innerText = "10問テスト"; modeDisp.className = "mode-badge mode-test";
             qHeader.innerHTML = (testCurrentIdx + 1) + ' / 10';
         } else if (mode === 'review') {
             if (reviewList.length === 0) { mode = 'normal'; return update(); }
             q = questions[reviewList[0]];
-            modeDisp.innerText = "復習モード";
-            modeDisp.className = "mode-badge mode-review";
+            modeDisp.innerText = "復習モード"; modeDisp.className = "mode-badge mode-review";
             qHeader.innerHTML = '残り ' + reviewList.length + ' 問';
         } else if (mode === 'fav') {
             if (favList.length === 0) { mode = 'normal'; return update(); }
             q = questions.find(item => item.no === favList[0]) || questions[0];
-            modeDisp.innerText = "お気に入り";
-            modeDisp.className = "mode-badge mode-fav";
+            modeDisp.innerText = "お気に入り"; modeDisp.className = "mode-badge mode-fav";
             qHeader.innerHTML = '残り ' + favList.length + ' 問';
         } else {
             q = questions[currentIdx];
-            modeDisp.innerText = "通常モード";
-            modeDisp.className = "mode-badge mode-normal";
+            modeDisp.innerText = "通常モード"; modeDisp.className = "mode-badge mode-normal";
             qHeader.innerHTML = 'No. ' + q.no + ' / ' + questions.length;
         }
 
@@ -265,10 +236,8 @@
         document.getElementById('star-btn').className = favList.includes(qNo) ? "star-btn active" : "star-btn";
         document.getElementById('q-content').innerText = q.question;
         document.getElementById('memo-input').value = memoData[qNo] || "";
-        
         document.getElementById('rev-count-m').innerText = reviewList.length;
         document.getElementById('fav-count-m').innerText = favList.length;
-
         const percent = mode === 'normal' ? ((currentIdx) / questions.length) * 100 : 100;
         document.getElementById('progress-bar').style.width = percent + '%';
     }
@@ -284,12 +253,10 @@
         lastUserAns = userAns;
         const targetIdx = getCurrentTargetIdx();
         const q = questions[targetIdx];
-        const resMsg = document.getElementById('result-msg');
-        
         document.getElementById('btn-group').style.display = 'none';
         document.getElementById('answer-section').style.display = 'flex';
-
         const isCorrect = userAns === q.answer;
+        const resMsg = document.getElementById('result-msg');
         if (isCorrect) {
             resMsg.innerText = "正解 ✅"; resMsg.style.color = "#ff4d79";
             if (mode === 'test') testCorrectCount++;
@@ -307,79 +274,36 @@
     }
 
     function next() {
-        if (mode === 'test') {
-            testCurrentIdx++;
-            if (testCurrentIdx >= testIndices.length) return showTestResult();
-        } else if (mode === 'normal') {
-            currentIdx++;
-            if (currentIdx >= questions.length) currentIdx = 0;
-            localStorage.setItem('fp_progress_v12', currentIdx);
-        }
+        if (mode === 'test') { testCurrentIdx++; if (testCurrentIdx >= testIndices.length) return showTestResult(); }
+        else if (mode === 'normal') { currentIdx++; if (currentIdx >= questions.length) currentIdx = 0; localStorage.setItem('fp_progress_v12', currentIdx); }
         update();
     }
 
     function startTest() {
         const maxIdx = currentIdx === 0 ? 1 : currentIdx;
         let pool = Array.from({length: maxIdx + 1}, (_, i) => i);
-        for (let i = pool.length - 1; i > 0; i--) {
-            const r = Math.floor(Math.random() * (i + 1));
-            [pool[i], pool[r]] = [pool[r], pool[i]];
-        }
-        testIndices = pool.slice(0, 10);
-        mode = 'test'; testCurrentIdx = 0; testCorrectCount = 0;
-        update();
-    }
-
-    function resetApp() {
-        const btn = document.getElementById('reset-btn');
-        resetClickCount++;
-        if (resetClickCount === 1) {
-            btn.innerText = "本当によろしいですか？";
-            btn.style.backgroundColor = "#ffcdd2";
-            btn.style.color = "#b71c1c";
-            setTimeout(() => {
-                resetClickCount = 0;
-                btn.innerText = "データをリセット";
-                btn.style.backgroundColor = "#eee";
-                btn.style.color = "#666";
-            }, 3000);
-        } else if (resetClickCount === 2) {
-            localStorage.clear();
-            location.reload();
-        }
+        for (let i = pool.length - 1; i > 0; i--) { const r = Math.floor(Math.random() * (i + 1)); [pool[i], pool[r]] = [pool[r], pool[i]]; }
+        testIndices = pool.slice(0, 10); mode = 'test'; testCurrentIdx = 0; testCorrectCount = 0; update();
     }
 
     function openMenu() { document.getElementById('menu-modal').style.display = 'flex'; }
     function closeMenu() { document.getElementById('menu-modal').style.display = 'none'; }
-    function showTestResult() { document.getElementById('test-result-screen').style.display = 'flex'; document.getElementById('test-score-text').innerText = `10問中 ${testCorrectCount}問 正解！`; }
     function finishTest() { mode = 'normal'; update(); }
     function startReview() { mode = 'review'; update(); }
     function startFav() { mode = 'fav'; update(); }
     function toggleFav() {
-        const targetIdx = getCurrentTargetIdx();
-        const qNo = questions[targetIdx].no;
-        const pos = favList.indexOf(qNo);
-        if (pos > -1) favList.splice(pos, 1); else favList.push(qNo);
-        localStorage.setItem('fp_fav_list', JSON.stringify(favList));
-        update();
+        const targetIdx = getCurrentTargetIdx(); const qNo = questions[targetIdx].no;
+        const pos = favList.indexOf(qNo); if (pos > -1) favList.splice(pos, 1); else favList.push(qNo);
+        localStorage.setItem('fp_fav_list', JSON.stringify(favList)); update();
     }
-    function saveMemo() {
-        const targetIdx = getCurrentTargetIdx();
-        const qNo = questions[targetIdx].no;
-        memoData[qNo] = document.getElementById('memo-input').value;
-        localStorage.setItem('fp_memos', JSON.stringify(memoData));
-    }
+    function saveMemo() { const targetIdx = getCurrentTargetIdx(); const qNo = questions[targetIdx].no; memoData[qNo] = document.getElementById('memo-input').value; localStorage.setItem('fp_memos', JSON.stringify(memoData)); }
     function copyForGemini() {
-        const targetIdx = getCurrentTargetIdx();
-        const q = questions[targetIdx];
+        const targetIdx = getCurrentTargetIdx(); const q = questions[targetIdx];
         const text = `以下のFP2級の問題について教えてください。\n\n【問題】\n${q.question}\n\n【正解】\n${q.answer}\n\n【解説】\n${q.explanation}\n\n背景や覚え方を詳しく教えて。`;
-        navigator.clipboard.writeText(text).then(() => {
-            const toast = document.getElementById('copy-toast');
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 2000);
-        });
+        navigator.clipboard.writeText(text).then(() => { const toast = document.getElementById('copy-toast'); toast.style.display = 'block'; setTimeout(() => { toast.style.display = 'none'; }, 2000); });
     }
-
+    function resetApp() { const btn = document.getElementById('reset-btn'); resetClickCount++; if (resetClickCount === 1) { btn.innerText = "本当によろしいですか？"; btn.style.backgroundColor = "#ffcdd2"; setTimeout(() => { resetClickCount = 0; btn.innerText = "データをリセット"; btn.style.backgroundColor = "#eee"; }, 3000); } else if (resetClickCount === 2) { localStorage.clear(); location.reload(); } }
+    function showTestResult() { document.getElementById('test-result-screen').style.display = 'flex'; document.getElementById('test-score-text').innerText = `10問中 ${testCorrectCount}問 正解！`; }
     update();
 </script>
 </body>
