@@ -28,7 +28,6 @@
             width: 100%;
             max-width: 440px;
             padding: 10px 15px;
-            /* 下部の空白を3pxに攻める */
             padding-bottom: 3px;
             display: flex;
             flex-direction: column;
@@ -57,14 +56,12 @@
             gap: 8px;
             flex-grow: 1;
             overflow-y: auto;
-            /* フッターがなくなった分、下まで使い切る */
             padding-bottom: 5px;
         }
         .menu-item {
             background: var(--card-bg);
             border: 2px solid var(--main-pink);
             border-radius: 18px;
-            /* 縦に大きく押しやすいサイズ */
             padding: 15px 15px; 
             text-decoration: none;
             color: var(--text-brown);
@@ -207,10 +204,17 @@
 </div>
 
 <script>
+    // 【修正箇所】各分野の正確な問題数を反映しました
     const totalQuestions = {
-        'a': 192, 'b': 100, 'c': 100, 'd': 100, 'e': 100, 'f': 100
+        'a': 192,
+        'b': 165,
+        'c': 141,
+        'd': 153,
+        'e': 163,
+        'f': 172
     };
 
+    // 【修正箇所】各ファイルで設定した「保存キー」と一致させました
     const config = [
         { id: 'a', key: 'fp_progress_v12' },
         { id: 'b', key: 'fp_progress_b' },
@@ -225,6 +229,7 @@
             const savedValue = localStorage.getItem(item.key);
             const fillElement = document.getElementById('bar-' + item.id);
             const textElement = document.getElementById('txt-' + item.id);
+            
             if (fillElement && textElement) {
                 if (!savedValue || parseInt(savedValue) === 0) {
                     fillElement.style.width = '0%';
@@ -232,6 +237,7 @@
                 } else {
                     const currentIdx = parseInt(savedValue);
                     const total = totalQuestions[item.id];
+                    // 進捗率を計算（最大100%）
                     const percent = Math.min(Math.round((currentIdx / total) * 100), 100);
                     fillElement.style.width = percent + '%';
                     textElement.innerText = percent + '%';
@@ -239,6 +245,7 @@
             }
         });
     }
+
     window.onload = refreshProgress;
     window.onpageshow = refreshProgress;
 </script>
