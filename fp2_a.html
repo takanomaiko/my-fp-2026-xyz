@@ -30,19 +30,19 @@
             max-width: 440px; 
             padding: 10px; 
             box-sizing: border-box; 
-            /* 【攻め】さらに20px下げて検索バーに近づけました */
-            padding-bottom: 45px; 
+            /* 【極限】さらに下げて、検索バーの直上に配置します */
+            padding-bottom: 20px; 
             display: flex; 
             flex-direction: column; 
             position: relative; 
         }
-        .progress-container { width: 100%; height: 6px; background-color: #eee; border-radius: 3px; margin-bottom: 5px; flex-shrink: 0;}
+        .progress-container { width: 100%; height: 6px; background-color: #eee; border-radius: 3px; margin-bottom: 10px; flex-shrink: 0;}
         #progress-bar { height: 100%; width: 0%; background-color: var(--accent-pink); border-radius: 3px; transition: width 0.3s; }
         .card { 
             background: var(--card-bg); 
             border: 3px solid var(--main-pink); 
             border-radius: 20px; 
-            padding: 12px; 
+            padding: 18px; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
             text-align: center; 
             position: relative; 
@@ -53,19 +53,19 @@
         }
         .star-btn { position: absolute; top: 8px; right: 12px; font-size: 1.4rem; cursor: pointer; border: none; background: none; color: #ddd; z-index: 10; }
         .star-btn.active { color: var(--star-yellow); }
-        .mode-badge { display: inline-block; padding: 2px 10px; border-radius: 15px; font-size: 0.7rem; margin-bottom: 4px; font-weight: bold; }
+        .mode-badge { display: inline-block; padding: 2px 12px; border-radius: 15px; font-size: 0.75rem; margin-bottom: 8px; font-weight: bold; }
         .mode-normal { background: var(--main-pink); color: var(--text-brown); }
         .mode-test { background: #ce93d8; color: white; }
         .mode-review { background: #fff176; color: #856404; }
         .mode-fav { background: #ffe082; color: #795548; }
-        .q-header { font-size: 0.8rem; font-weight: bold; color: var(--accent-pink); margin-bottom: 4px; }
+        .q-header { font-size: 0.85rem; font-weight: bold; color: var(--accent-pink); margin-bottom: 8px; }
         
-        /* 問題文エリア：高さをさらにスリムにして解説を優先 */
+        /* 問題文：フォントを少し大きく */
         .q-text { 
-            font-size: 0.95rem; 
-            line-height: 1.4; 
-            margin-bottom: 8px; 
-            max-height: 25%; 
+            font-size: 1.05rem; 
+            line-height: 1.5; 
+            margin-bottom: 15px; 
+            max-height: 30%; 
             display: flex; 
             align-items: flex-start; 
             text-align: left; 
@@ -73,64 +73,69 @@
             padding-top: 5px; 
             flex-shrink: 0;
         }
-        .btn-group { display: flex; gap: 10px; margin-top: auto; margin-bottom: 5px; flex-shrink: 0; }
-        .btn-main { flex: 1; padding: 15px; font-size: 1.6rem; border: none; border-radius: 12px; cursor: pointer; transition: 0.1s; box-shadow: 0 3px 0 rgba(0,0,0,0.1); }
+        .btn-group { display: flex; gap: 12px; margin-top: auto; margin-bottom: 10px; flex-shrink: 0; }
+        .btn-main { flex: 1; padding: 16px; font-size: 1.7rem; border: none; border-radius: 14px; cursor: pointer; transition: 0.1s; box-shadow: 0 4px 0 rgba(0,0,0,0.1); }
         .btn-main:active { transform: translateY(2px); box-shadow: none; }
         .btn-o { background-color: #ffb7c5; color: white; }
         .btn-x { background-color: #a0d8ef; color: white; }
 
-        /* 解説セクション：高さを最大限に確保 */
+        /* 解説セクション：ゆとりを持って表示 */
         #answer-section { 
             display: none; 
-            padding: 10px; 
+            padding: 15px; 
             background-color: var(--hachiware-blue); 
-            border-radius: 12px; 
+            border-radius: 15px; 
             flex-direction: column;
             flex-grow: 1;
             overflow-y: hidden;
             animation: fadeIn 0.2s ease; 
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .result-msg { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; flex-shrink: 0;}
+        .result-msg { font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; flex-shrink: 0;}
+        
+        /* 解説文：フォントを少し大きく */
         .explanation { 
-            font-size: 0.85rem; 
+            font-size: 0.95rem; 
             text-align: left; 
-            line-height: 1.5; 
-            margin-bottom: 8px; 
+            line-height: 1.6; 
+            margin-bottom: 12px; 
             overflow-y: auto; 
             color: #333; 
             border-top: 1px dashed rgba(0,0,0,0.1); 
-            padding-top: 8px; 
+            padding-top: 10px; 
             flex-grow: 1;
         }
-        .memo-area { margin-bottom: 8px; text-align: left; flex-shrink: 0; }
-        .memo-label { font-size: 0.7rem; font-weight: bold; color: var(--accent-pink); display: block; margin-bottom: 2px; }
-        .memo-input { width: 100%; border: 1px solid #ccc; border-radius: 5px; padding: 6px; font-size: 0.8rem; font-family: inherit; background: #fff; box-sizing: border-box; resize: none; }
-        .btn-next { width: 100%; background-color: var(--accent-pink); color: white; font-size: 1.1rem; border-radius: 10px; border:none; padding: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #d66d85; margin-bottom: 5px; flex-shrink: 0; }
-        .btn-copy { width: auto; background-color: transparent; color: #888; border: 1px solid #ccc; font-size: 0.6rem; padding: 3px 8px; border-radius: 6px; cursor: pointer; display: block; margin: 0 auto; flex-shrink: 0;}
+        .memo-area { margin-bottom: 12px; text-align: left; flex-shrink: 0; }
+        .memo-label { font-size: 0.75rem; font-weight: bold; color: var(--accent-pink); display: block; margin-bottom: 4px; }
+        .memo-input { width: 100%; border: 1px solid #ccc; border-radius: 6px; padding: 10px; font-size: 0.9rem; font-family: inherit; background: #fff; box-sizing: border-box; resize: none; }
+        
+        .btn-next { width: 100%; background-color: var(--accent-pink); color: white; font-size: 1.1rem; border-radius: 12px; border:none; padding: 14px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #d66d85; margin-bottom: 8px; flex-shrink: 0; }
+        .btn-copy { width: auto; background-color: transparent; color: #888; border: 1px solid #ccc; font-size: 0.65rem; padding: 4px 10px; border-radius: 8px; cursor: pointer; display: block; margin: 0 auto; flex-shrink: 0;}
 
-        /* フッターボタン */
+        /* フッター：位置を極限まで下げました */
         .footer-btns { 
-            margin-top: 8px; 
+            margin-top: 12px; 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 8px; 
+            gap: 10px; 
             z-index: 10; 
             flex-shrink: 0;
         }
-        .btn-sub { padding: 12px; font-size: 0.85rem; background: #eee; border-radius: 8px; color: #666; border:none; cursor: pointer; font-weight: bold; }
+        .btn-sub { padding: 14px; font-size: 0.9rem; background: #eee; border-radius: 10px; color: #666; border:none; cursor: pointer; font-weight: bold; }
         
+        /* モーダルメニュー */
         .modal-overlay { 
             position: absolute; top:0; left:0; width:100%; height:100%; 
             background:rgba(0,0,0,0.5); display:none; justify-content:center; 
             align-items:center; z-index:200; 
         }
-        .modal-content { background: white; width: 85%; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .modal-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; color: var(--text-brown); }
-        .modal-btn { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
+        .modal-content { background: white; width: 85%; border-radius: 20px; padding: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; color: var(--text-brown); }
+        .modal-btn { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; font-size: 1rem; }
         
+        /* テスト結果画面 */
         .result-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 150; padding: 20px; box-sizing: border-box; }
-        #copy-toast { display: none; position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.75rem; z-index: 1000; }
+        #copy-toast { display: none; position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 8px 20px; border-radius: 20px; font-size: 0.8rem; z-index: 1000; }
     </style>
 </head>
 <body>
@@ -184,7 +189,6 @@
 <div id="copy-toast">コピーしました！</div>
 
 <script>
-    // 問題データ（A分野）
     const questions = [
         {"no":1,"question":"税理士の登録を受けていないFPが、ふるさと納税について相談に来た顧客の求めに応じ、顧客の年間収入や家族構成をもとに寄附金控除の額を計算し、確定申告書の作成を代行した。","answer":"×","explanation":"確定申告書などの税務書類の作成は、税理士の登録を受けていないFPが行うことはできません。"},
         {"no":2,"question":"税理士の登録を受けていないFPが、顧客から配偶者控除と配偶者特別控除の適用要件を聞かれ、所得税法の条文等を示しつつ、それぞれの適用要件の違いを説明した。","answer":"⚪︎","explanation":"配偶者控除などの税制に関する一般的な説明を行うことは、税理士法に抵触しないため、税理士の登録を受けていないFPでも可能です。"}
