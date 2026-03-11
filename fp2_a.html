@@ -30,8 +30,8 @@
             max-width: 440px; 
             padding: 8px; 
             box-sizing: border-box; 
-            /* 検索バー直上の10pxを維持 */
-            padding-bottom: 10px; 
+            /* 【極限】ご指定の3pxに設定 */
+            padding-bottom: 3px; 
             display: flex; 
             flex-direction: column; 
             position: relative; 
@@ -60,7 +60,6 @@
         .mode-fav { background: #ffe082; color: #795548; }
         .q-header { font-size: 0.75rem; font-weight: bold; color: var(--accent-pink); margin-bottom: 2px; }
         
-        /* 【修正】問題文エリアを30%まで拡大（約2〜3行分アップ） */
         .q-text { 
             font-size: 1.0rem; 
             line-height: 1.4; 
@@ -79,7 +78,6 @@
         .btn-o { background-color: #ffb7c5; color: white; }
         .btn-x { background-color: #a0d8ef; color: white; }
 
-        /* 解説セクション：問題文が広がった分、こちらで調整 */
         #answer-section { 
             display: none; 
             padding: 8px 10px; 
@@ -106,10 +104,24 @@
         .memo-area { margin-bottom: 6px; text-align: left; flex-shrink: 0; }
         .memo-label { font-size: 0.65rem; font-weight: bold; color: var(--accent-pink); display: block; margin-bottom: 1px; }
         .memo-input { width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 5px; font-size: 0.85rem; font-family: inherit; background: #fff; box-sizing: border-box; resize: none; }
+        
         .btn-next { width: 100%; background-color: var(--accent-pink); color: white; font-size: 1.1rem; border-radius: 10px; border:none; padding: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #d66d85; margin-bottom: 4px; flex-shrink: 0; }
-        .btn-copy { width: auto; background-color: transparent; color: #888; border: 1px solid #ccc; font-size: 0.6rem; padding: 2px 8px; border-radius: 6px; cursor: pointer; display: block; margin: 0 auto; flex-shrink: 0;}
+        
+        /* 【修正】Geminiボタンを少し離しました */
+        .btn-copy { 
+            width: auto; 
+            background-color: transparent; 
+            color: #888; 
+            border: 1px solid #ccc; 
+            font-size: 0.6rem; 
+            padding: 3px 8px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            display: block; 
+            margin: 15px auto 0 auto; /* 上に15pxの余白 */
+            flex-shrink: 0;
+        }
 
-        /* フッター：検索バー直上 */
         .footer-btns { 
             margin-top: 8px; 
             display: grid; 
@@ -126,7 +138,6 @@
             align-items:center; z-index:200; 
         }
         .modal-content { background: white; width: 85%; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .modal-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; color: var(--text-brown); }
         .modal-btn { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
         .result-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 150; padding: 20px; box-sizing: border-box; }
         #copy-toast { display: none; position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.75rem; z-index: 1000; }
@@ -184,7 +195,7 @@
 
 <script>
     const questions = [
-        {
+       {
         "no": 1,
         "question": "税理士の登録を受けていないFPが、ふるさと納税について相談に来た顧客の求めに応じ、顧客の年間収入や家族構成をもとに寄附金控除の額を計算し、確定申告書の作成を代行した。",
         "answer": "×",
