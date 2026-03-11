@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FP2級 特訓メニュー</title>
+    <style>
+        :root {
+            --bg-color: #fffaf0;
+            --main-pink: #ffdae0;
+            --accent-pink: #ff85a2;
+            --text-brown: #5a4a42;
+            --card-bg: #ffffff;
+            --bar-bg: #f0f0f0;
+        }
+
+        /* 全体のボックスサイズ計算を固定 */
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-brown);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden; /* 全体はスクロールさせない */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            padding: 10px 15px; /* 上下を少し詰めました */
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 10px; /* 余白を削減 */
+        }
+
+        h1 {
+            font-size: 1.4rem; /* 少し小さく調整 */
+            margin: 0;
+            color: var(--accent-pink);
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        /* 縦並びのボタンリスト */
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* 項目間の隙間を詰めました */
+            flex-grow: 1;
+            overflow-y: auto; /* ここだけスクロール可能に */
+            padding-bottom: 5px;
+        }
+
+        .menu-item {
+            background: var(--card-bg);
+            border: 2px solid var(--main-pink);
+            border-radius: 15px;
+            padding: 10px 15px; /* 上下のパディングを詰めました */
+            text-decoration: none;
+            color: var(--text-brown);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 3px 0 var(--main-pink);
+            transition: 0.1s;
+        }
+
+        .menu-item:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+
+        .field-symbol {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-pink);
+            width: 35px; /* 横幅をスリムに */
+            text-align: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .field-info {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .field-name {
+            font-size: 0.9rem; /* 文字サイズを微調整 */
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bar-bg {
+            flex-grow: 1;
+            height: 10px; /* バーを少し細く */
+            background: var(--bar-bg);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-pink);
+            border-radius: 5px;
+            transition: width 0.8s ease-out;
+        }
+
+        .percent-text {
+            font-size: 0.7rem;
+            color: #999;
+            min-width: 30px;
+            text-align: right;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            padding: 8px 0;
+            opacity: 0.9;
+        }
+
+        .field-a { border-left: 6px solid #ffcdd2; }
+        .field-b { border-left: 6px solid #c8e6c9; }
+        .field-c { border-left: 6px solid #bbdefb; }
+        .field-d { border-left: 6px solid #fff9c4; }
+        .field-e { border-left: 6px solid #e1bee7; }
+        .field-f { border-left: 6px solid #ffccbc; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>FP2級 TEPPEN</h1>
+    </header>
+
+    <div class="menu-list">
+        <a href="fp2_a.html" class="menu-item field-a">
+            <div class="field-symbol">A</div>
+            <div class="field-info">
+                <div class="field-name">ライフプランニングと資金計画</div>
+                <div class="progress-container">
+                    <div class="bar-bg"><div class="bar-fill" id="bar-a"></div></div>
+                    <span class="percent-text" id="txt-a">0%</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="fp2_b.html" class="menu-item field-b">
+            <div class="field-symbol">B</div>
+            <div class="field-info">
+                <div class="field-name">リスク管理</div>
+                <div class="progress-container">
+                    <div class="bar-bg"><div class="bar-fill" id="bar-b"></div></div>
+                    <span class="percent-text" id="txt-b">0%</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="fp2_c.html" class="menu-item field-c">
+            <div class="field-symbol">C</div>
+            <div class="field-info">
+                <div class="field-name">金融資産運用</div>
+                <div class="progress-container">
+                    <div class="bar-bg"><div class="bar-fill" id="bar-c"></div></div>
+                    <span class="percent-text" id="txt-c">0%</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="fp2_d.html" class="menu-item field-d">
+            <div class="field-symbol">D</div>
+            <div class="field-info">
+                <div class="field-name">タックスプランニング</div>
+                <div class="progress-container">
+                    <div class="bar-bg"><div class="bar-fill" id="bar-d"></div></div>
+                    <span class="percent-text" id="txt-d">0%</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="fp2_e.html" class="menu-item field-e">
+            <div class="field-symbol">E</div>
+            <div class="field-info">
+                <div class="field-name">不動産</div>
+                <div class="progress-container">
+                    <div class="bar-bg"><div class="bar-fill" id="bar-e"></div></div>
+                    <span class="percent-text" id="txt-e">0%</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="fp2_f.html" class="menu-item field-f">
+            <div class="field-symbol">F</div>
+            <div class="field-info">
+                <div class="field-name">相続・事業承継</div>
+                <div class="progress-container">
+                    <div class="bar-bg"><div class="bar-fill" id="bar-f"></div></div>
+                    <span class="percent-text" id="txt-f">0%</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <footer>
+        🔥毎日ちょっとでもやる！🔥
+    </footer>
+</div>
+
+<script>
+    const totalQuestions = {
+        'a': 192,
+        'b': 100,
+        'c': 100,
+        'd': 100,
+        'e': 100,
+        'f': 100
+    };
+
+    const config = [
+        { id: 'a', key: 'fp_progress_v12' },
+        { id: 'b', key: 'fp_progress_b' },
+        { id: 'c', key: 'fp_progress_c' },
+        { id: 'd', key: 'fp_progress_d' },
+        { id: 'e', key: 'fp_progress_e' },
+        { id: 'f', key: 'fp_progress_f' }
+    ];
+
+    function refreshProgress() {
+        config.forEach(item => {
+            const savedValue = localStorage.getItem(item.key);
+            const fillElement = document.getElementById('bar-' + item.id);
+            const textElement = document.getElementById('txt-' + item.id);
+            
+            if (fillElement && textElement) {
+                if (!savedValue || parseInt(savedValue) === 0) {
+                    fillElement.style.width = '0%';
+                    textElement.innerText = '0%';
+                } else {
+                    const currentIdx = parseInt(savedValue);
+                    const total = totalQuestions[item.id];
+                    const percent = Math.min(Math.round((currentIdx / total) * 100), 100);
+                    
+                    fillElement.style.width = percent + '%';
+                    textElement.innerText = percent + '%';
+                }
+            }
+        });
+    }
+
+    window.onload = refreshProgress;
+    window.onpageshow = refreshProgress;
+</script>
+
+</body>
+</html>
