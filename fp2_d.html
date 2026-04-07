@@ -1198,7 +1198,17 @@
         const q = questions[targetIdx];
         document.getElementById('btn-group').style.display = 'none';
         document.getElementById('answer-section').style.display = 'flex';
-        const isCorrect = userAns === q.answer;
+
+        // --- 修正ポイント：○と×の両方の表記ゆれを吸収 ---
+        // まる判定用の関数（いろいろな「まる」をカバー）
+        const isMaru = (val) => ['○', '⚪︎', '⚪', '〇'].includes(val);
+        // ばつ判定用の関数（いろいろな「ばつ」や「エックス」をカバー）
+        const isBatsu = (val) => ['×', 'x', 'X', '✕', '✖'].includes(val);
+
+        const isCorrect = (isMaru(userAns) && isMaru(q.answer)) || 
+                          (isBatsu(userAns) && isBatsu(q.answer));
+        // ----------------------------------------------
+
         const resMsg = document.getElementById('result-msg');
         if (isCorrect) {
             resMsg.innerText = "正解 ✅"; resMsg.style.color = "#ff4d79";
