@@ -363,6 +363,7 @@
     let currentIdx = 0;
     let mode = 'normal'; 
     let lastUserAns = "";
+    let currentQuestion = null;
 
     const KEY_PROGRESS = 'fp_progress_b';
     const KEY_REVIEW = 'fp_review_list_b';
@@ -419,8 +420,8 @@
             qHeader.innerHTML = 'No. ' + q.no + ' / ' + (START_NO + TOTAL_Q_B - 1);
         }
 
-        const targetIdx = getCurrentTargetIdx();
-        const qNo = questions[targetIdx].no;
+        currentQuestion = q;
+        const qNo = q.no;
         document.getElementById('star-btn').className = favList.includes(qNo) ? "star-btn active" : "star-btn";
         document.getElementById('q-content').innerText = q.question;
         document.getElementById('memo-input').value = memoData[qNo] || "";
@@ -431,17 +432,9 @@
         document.getElementById('progress-bar').style.width = percent + '%';
     }
 
-    function getCurrentTargetIdx() {
-        if (mode === 'test') return testIndices[testCurrentIdx];
-        if (mode === 'review') return questions.findIndex(q => q.no === reviewList[0]);
-        if (mode === 'fav') return questions.findIndex(q => q.no === favList[0]);
-        return currentIdx;
-    }
-
     function check(userAns) {
         lastUserAns = userAns;
-        const targetIdx = getCurrentTargetIdx();
-        const q = questions[targetIdx];
+        const q = currentQuestion;
         const qNo = q.no;
         document.getElementById('btn-group').style.display = 'none';
         document.getElementById('answer-section').style.display = 'flex';
@@ -489,21 +482,30 @@
     function startFav() { mode = 'fav'; update(); }
     
     function toggleFav() {
-        const targetIdx = getCurrentTargetIdx(); const qNo = questions[targetIdx].no;
-        const pos = favList.indexOf(qNo); if (pos > -1) favList.splice(pos, 1); else favList.push(qNo);
-        localStorage.setItem(KEY_FAV, JSON.stringify(favList)); update();
+        if (!currentQuestion) return;
+        const qNo = currentQuestion.no;
+        const pos = favList.indexOf(qNo); 
+        if (pos > -1) {
+            favList.splice(pos, 1); 
+            document.getElementById('star-btn').className = "star-btn";
+        } else {
+            favList.push(qNo);
+            document.getElementById('star-btn').className = "star-btn active";
+        }
+        localStorage.setItem(KEY_FAV, JSON.stringify(favList)); 
+        document.getElementById('fav-count-m').innerText = favList.length;
     }
     
     function saveMemo() { 
-        const targetIdx = getCurrentTargetIdx(); 
-        const qNo = questions[targetIdx].no; 
+        if (!currentQuestion) return;
+        const qNo = currentQuestion.no; 
         memoData[qNo] = document.getElementById('memo-input').value; 
         localStorage.setItem(KEY_MEMO, JSON.stringify(memoData)); 
     }
     
     function copyForGemini() {
-        const targetIdx = getCurrentTargetIdx(); 
-        const q = questions[targetIdx];
+        if (!currentQuestion) return;
+        const q = currentQuestion;
         const memo = document.getElementById('memo-input').value;
         const memoText = memo ? `\n\n【マイメモ】\n${memo}` : '';
         const text = `以下のFP2級の問題について教えてください。\n\n【問題】\n${q.question}\n\n【正解】\n${q.answer}\n\n【解説】\n${q.explanation}${memoText}\n\n背景や覚え方を詳しく教えて。`;
