@@ -393,10 +393,8 @@
         } else if (mode === 'review') {
             if (reviewList.length === 0) { mode = 'normal'; return update(); }
             
-            // 修正：インデックスではなく「固有の問題番号(no)」で検索して取り出す
             q = questions.find(item => item.no === reviewList[0]);
             
-            // 安全策：古い形式のデータが残っていて問題が見つからない場合はスキップする
             if (!q) { 
                 reviewList.shift(); 
                 localStorage.setItem(KEY_REVIEW, JSON.stringify(reviewList)); 
@@ -407,7 +405,12 @@
             qHeader.innerHTML = '残り ' + reviewList.length + ' 問';
         } else if (mode === 'fav') {
             if (favList.length === 0) { mode = 'normal'; return update(); }
-            q = questions.find(item => item.no === favList[0]) || questions[0];
+            q = questions.find(item => item.no === favList[0]);
+            if (!q) {
+                favList.shift(); 
+                localStorage.setItem(KEY_FAV, JSON.stringify(favList)); 
+                return update(); 
+            }
             modeDisp.innerText = "お気に入り"; modeDisp.className = "mode-badge mode-fav";
             qHeader.innerHTML = '残り ' + favList.length + ' 問';
         } else {
@@ -439,20 +442,15 @@
         lastUserAns = userAns;
         const targetIdx = getCurrentTargetIdx();
         const q = questions[targetIdx];
-        const qNo = q.no; // 現在の問題の固有番号を取得
-
+        const qNo = q.no;
         document.getElementById('btn-group').style.display = 'none';
         document.getElementById('answer-section').style.display = 'flex';
 
-        // --- 修正ポイント：○と×の両方の表記ゆれを吸収 ---
-        // まる判定用の関数（いろいろな「まる」をカバー）
         const isMaru = (val) => ['○', '⚪︎', '⚪', '〇'].includes(val);
-        // ばつ判定用の関数（いろいろな「ばつ」や「エックス」をカバー）
         const isBatsu = (val) => ['×', 'x', 'X', '✕', '✖'].includes(val);
 
         const isCorrect = (isMaru(userAns) && isMaru(q.answer)) || 
                           (isBatsu(userAns) && isBatsu(q.answer));
-        // ----------------------------------------------
 
         const resMsg = document.getElementById('result-msg');
         if (isCorrect) {
@@ -462,12 +460,8 @@
             if (mode === 'fav') favList.shift();
         } else {
             resMsg.innerText = "不正解 ❌"; resMsg.style.color = "#007bff";
-            // 修正：配列のインデックスではなく固有の問題番号(qNo)を保存する
-            if (mode !== 'review') {
-                if (!reviewList.includes(qNo)) reviewList.push(qNo);
-            } else {
-                reviewList.push(reviewList.shift());
-            }
+            if (!reviewList.includes(qNo)) reviewList.push(qNo);
+            if (mode === 'review') reviewList.push(reviewList.shift());
             if (mode === 'fav') favList.push(favList.shift());
         }
         localStorage.setItem(KEY_REVIEW, JSON.stringify(reviewList));
@@ -493,17 +487,67 @@
     function finishTest() { mode = 'normal'; update(); }
     function startReview() { mode = 'review'; update(); }
     function startFav() { mode = 'fav'; update(); }
+    
     function toggleFav() {
         const targetIdx = getCurrentTargetIdx(); const qNo = questions[targetIdx].no;
         const pos = favList.indexOf(qNo); if (pos > -1) favList.splice(pos, 1); else favList.push(qNo);
         localStorage.setItem(KEY_FAV, JSON.stringify(favList)); update();
     }
-    function saveMemo() { const targetIdx = getCurrentTargetIdx(); const qNo = questions[targetIdx].no; memoData[qNo] = document.getElementById('memo-input').value; localStorage.setItem(KEY_MEMO, JSON.stringify(memoData)); }
-    function copyForGemini() {
-        const targetIdx = getCurrentTargetIdx(); const q = questions[targetIdx];
-        const text = `以下のFP2級の問題について教えてください。\n\n【問題】\n${q.question}\n\n【正解】\n${q.answer}\n\n【解説】\n${q.explanation}\n\n背景や覚え方を詳しく教えて。`;
-        navigator.clipboard.writeText(text).then(() => { const toast = document.getElementById('copy-toast'); toast.style.display = 'block'; setTimeout(() => { toast.style.display = 'none'; }, 2000); });
+    
+    function saveMemo() { 
+        const targetIdx = getCurrentTargetIdx(); 
+        const qNo = questions[targetIdx].no; 
+        memoData[qNo] = document.getElementById('memo-input').value; 
+        localStorage.setItem(KEY_MEMO, JSON.stringify(memoData)); 
     }
+    
+    function copyForGemini() {
+        const targetIdx = getCurrentTargetIdx(); 
+        const q = questions[targetIdx];
+        const memo = document.getElementById('memo-input').value;
+        const memoText = memo ? `\n\n【マイメモ】\n${memo}` : '';
+        const text = `以下のFP2級の問題について教えてください。\n\n【問題】\n${q.question}\n\n【正解】\n${q.answer}\n\n【解説】\n${q.explanation}${memoText}\n\n背景や覚え方を詳しく教えて。`;
+        
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(() => { 
+                showCopyToast(); 
+            }).catch(err => {
+                fallbackCopyTextToClipboard(text);
+            });
+        } else {
+            fallbackCopyTextToClipboard(text);
+        }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.position = "fixed";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            const successful = document.execCommand('copy');
+            if(successful){
+                showCopyToast();
+            } else {
+                alert("コピーに失敗しました。");
+            }
+        } catch (err) {
+            console.error('Fallback: Oops, unable to copy', err);
+            alert("コピーに失敗しました。");
+        }
+        document.body.removeChild(textArea);
+    }
+
+    function showCopyToast() {
+        const toast = document.getElementById('copy-toast'); 
+        toast.style.display = 'block'; 
+        setTimeout(() => { toast.style.display = 'none'; }, 2000);
+    }
+
     function resetApp() { 
         const btn = document.getElementById('reset-btn'); 
         resetClickCount++; 
@@ -512,7 +556,6 @@
             btn.style.backgroundColor = "#ffcdd2"; 
             setTimeout(() => { resetClickCount = 0; btn.innerText = "データをリセット"; btn.style.backgroundColor = "#eee"; }, 3000); 
         } else if (resetClickCount === 2) { 
-            // 【B分野用修正】 localStorage.clear() をやめ、B分野のキーだけを削除する
             localStorage.removeItem(KEY_PROGRESS);
             localStorage.removeItem(KEY_REVIEW);
             localStorage.removeItem(KEY_FAV);
@@ -520,7 +563,12 @@
             location.reload(); 
         } 
     }
-    function showTestResult() { document.getElementById('test-result-screen').style.display = 'flex'; document.getElementById('test-score-text').innerText = `10問中 ${testCorrectCount}問 正解！`; }
+    
+    function showTestResult() { 
+        document.getElementById('test-result-screen').style.display = 'flex'; 
+        document.getElementById('test-score-text').innerText = `10問中 ${testCorrectCount}問 正解！`; 
+    }
+    
     update();
 </script>
 </body>
